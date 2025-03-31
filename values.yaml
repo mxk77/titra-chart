@@ -6,7 +6,7 @@ config:
   MONGO_INITDB_DATABASE: "titra"
 
 titra:
-  replicas: 3
+  replicas: 1
   image:
     repository: mxk77/titra_app
     tag: latest
@@ -22,6 +22,7 @@ titra:
     periodSeconds: 10
   service:
     port: 3000
+    type: LoadBalancer
   resources:
     requests:
       cpu: "100m"
@@ -53,7 +54,7 @@ pvc:
   storageClassName: "standard"
 
 ingress:
-  enabled: true
+  enabled: false
   class: "nginx"
   backendProtocol: "HTTP"
   host: "titra.com"

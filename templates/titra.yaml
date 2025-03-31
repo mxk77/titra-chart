@@ -48,7 +48,7 @@ kind: Service
 metadata:
   name: {{ include "titra-chart.fullname" . }}-titra
 spec:
-  type: ClusterIP
+  type: {{ default "LoadBalancer" .Values.titra.service.type }}
   selector:
     app: titra
   ports:
