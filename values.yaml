@@ -51,7 +51,7 @@ mongodb:
 
 pvc:
   storage: "5Gi"
-  storageClassName: "gp2"
+  storageClassName: "gp2-csi"
 
 ingress:
   enabled: false
