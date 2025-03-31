@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "titra-chart.fullname" . }}-titra
+  labels:
+    app: titra
+spec:
+  replicas: {{ .Values.titra.replicas }}
+  selector:
+    matchLabels:
+      app: titra
+  template:
+    metadata:
+      labels:
+        app: titra
+    spec:
+      containers:
+        - name: titra
+          image: "{{ .Values.titra.image.repository }}:{{ .Values.titra.image.tag }}"
+          imagePullPolicy: {{ .Values.titra.image.pullPolicy | quote }}
+          ports:
+            - containerPort: {{ .Values.titra.containerPort }}
+          env:
+            - name: ROOT_URL
+              value: {{ .Values.config.ROOT_URL | quote }}
+            - name: MONGO_URL
+              value: {{ printf "mongodb://%s-mongodb/titra?directConnection=true" (include "titra-chart.fullname" .) | quote }}
+            - name: PORT
+              value: {{ .Values.config.PORT | quote }}
+          resources:
+            {{- toYaml .Values.titra.resources | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.titra.readinessProbe.path | quote }}
+              port: {{ .Values.titra.containerPort }}
+            initialDelaySeconds: {{ .Values.titra.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.titra.readinessProbe.periodSeconds }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.titra.livenessProbe.path | quote }}
+              port: {{ .Values.titra.containerPort }}
+            initialDelaySeconds: {{ .Values.titra.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.titra.livenessProbe.periodSeconds }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "titra-chart.fullname" . }}-titra
+spec:
+  type: ClusterIP
+  selector:
+    app: titra
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.titra.service.port }}
+      targetPort: {{ .Values.titra.containerPort }}
