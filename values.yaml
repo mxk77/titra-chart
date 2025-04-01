@@ -34,7 +34,8 @@ titra:
 mongodb:
   replicas: 1
   image: "mongo:4.4"
-  storage: "5Gi"
+  storage: "5Gi" # The storage size to request
+  storageClassName: "ebs-sc" # The StorageClass you defined for EBS
   resources:
     requests:
       cpu: "100m"
@@ -48,10 +49,6 @@ mongodb:
   livenessProbe:
     initialDelaySeconds: 30
     periodSeconds: 30
-
-pvc:
-  storage: "5Gi"
-  storageClassName: "gp2-csi"
 
 ingress:
   enabled: false

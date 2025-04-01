@@ -58,8 +58,8 @@ spec:
     - metadata:
         name: mongo-data
       spec:
-        accessModes: ["ReadWriteOnce"]
-        storageClassName: {{ .Values.pvc.storageClassName | quote }}
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ .Values.mongodb.storageClassName | quote }}
         resources:
           requests:
             storage: {{ .Values.mongodb.storage | quote }}
