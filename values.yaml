@@ -31,27 +31,30 @@ titra:
       cpu: "500m"
       memory: "512Mi"
 
-mongodb:
-  replicas: 1
-  image: "mongo:4.4"
-  storage: "5Gi" # The storage size to request
-  storageClassName: "ebs-sc" # The StorageClass you defined for EBS
-  resources:
-    requests:
-      cpu: "100m"
-      memory: "256Mi"
-    limits:
-      cpu: "500m"
-      memory: "512Mi"
-  readinessProbe:
-    initialDelaySeconds: 10
-    periodSeconds: 10
-  livenessProbe:
-    initialDelaySeconds: 30
-    periodSeconds: 30
-
-ingress:
-  enabled: false
-  class: "nginx"
-  backendProtocol: "HTTP"
-  host: "titra.com"
+db:
+  username: "docdb_admin"
+  password: "SuperSecurePassword77"
+  host: titra-docdb-cluster.cluster-cha6yigayiu9.eu-central-1.docdb.amazonaws.com
+# mongodb:
+#   replicas: 1
+#   image: "mongo:4.4"
+#   storage: "5Gi" # The storage size to request
+#   storageClassName: "ebs-sc" # The StorageClass you defined for EBS
+#   resources:
+#     requests:
+#       cpu: "100m"
+#       memory: "256Mi"
+#     limits:
+#       cpu: "500m"
+#       memory: "512Mi"
+#   readinessProbe:
+#     initialDelaySeconds: 10
+#     periodSeconds: 10
+#   livenessProbe:
+#     initialDelaySeconds: 30
+#     periodSeconds: 30
+# ingress:
+#   enabled: false
+#   class: "nginx"
+#   backendProtocol: "HTTP"
+#   host: "titra.com"

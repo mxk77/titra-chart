@@ -25,7 +25,7 @@ spec:
             - name: ROOT_URL
               value: {{ .Values.config.ROOT_URL | quote }}
             - name: MONGO_URL
-              value: {{ printf "mongodb://%s-mongodb/titra?directConnection=true" (include "titra-chart.fullname" .) | quote }}
+              value: {{ printf "mongodb://%s:%s@%s:27017/titra?ssl=true&replicaSet=rs0" .Values.db.username .Values.db.password .Values.db.host | quote }}
             - name: PORT
               value: {{ .Values.config.PORT | quote }}
           resources:
